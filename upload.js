@@ -16,14 +16,16 @@ const sleep = (milliseconds) => {
 
 async function postReels(videoPath, botToken, chatId, caption) {
     const bot = new TelegramBot(botToken);
-    const username = 'modeler_k6BvRY';
-    const password = 'vvWVAgmGHtkD';
+    //Генерируем уникальный идентификатор для каталога userDataDir
+    const username = 'TwhzCm';
+    const password = 'ycKFoF';
 
     const browser = await puppeteer.launch({
         args: [
          '--no-sandbox',
-         `--proxy-server=http://45.128.156.22:14184`,
+         `--proxy-server=http://85.195.81.160:11838`,
         ],
+        headless: false,
         executablePath: executablePath(),
         userDataDir: './instProfile'
     });
@@ -129,4 +131,4 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-module.exports = postReels
+postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
