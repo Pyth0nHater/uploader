@@ -4,7 +4,10 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { executablePath } = require('puppeteer');
 const TelegramBot = require('node-telegram-bot-api');
 const { createCursor, installMouseHelper } = require("ghost-cursor");
+const dotenv = require('dotenv');
+
 puppeteer.use(StealthPlugin());
+dotenv.config();
 
 const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -14,13 +17,15 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     const bot = new TelegramBot(botToken);
 
      //Генерируем уникальный идентификатор для каталога userDataDir
-     const username = process.env.username;
+     const username = process.env.login;
      const password = process.env.password;
+     const ip = process.env.ip;
+     console.log(username, password, ip)
 
      const browser = await puppeteer.launch({
          args: [
           '--no-sandbox',
-          `--proxy-server=${process.env.ip}`,
+          `--proxy-server=${ip}`,
          ],
          headless: process.env.headless,
          executablePath: executablePath(),
