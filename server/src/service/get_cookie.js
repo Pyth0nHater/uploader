@@ -14,15 +14,15 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     const bot = new TelegramBot(botToken);
 
      //Генерируем уникальный идентификатор для каталога userDataDir
-     const username = 'modeler_bib0v5';
-     const password = '6nGEpcc9FrxN';
+     const username = process.env.username;
+     const password = process.env.password;
 
      const browser = await puppeteer.launch({
          args: [
           '--no-sandbox',
-          `--proxy-server=http://46.30.189.50:11313`,
+          `--proxy-server=${process.env.ip}`,
          ],
-         headless: false,
+         headless: process.env.headless,
          executablePath: executablePath(),
         // userDataDir: './instProfile'
      });
