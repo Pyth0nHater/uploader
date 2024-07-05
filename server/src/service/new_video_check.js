@@ -45,7 +45,7 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     const cookies = JSON.parse(await fs.readFile('../../data/cookies/tiktok_cookie.json'));
     await page.setCookie(...cookies);
 
-    await page.goto("https://www.tiktok.com/", { waitUntil: 'domcontentloaded', headless: "new" });
+    await page.goto("https://www.tiktok.com/@bestbet012?_t=8nlbx15xTWx&_r=1", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(10000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
