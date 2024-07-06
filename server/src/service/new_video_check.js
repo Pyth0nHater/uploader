@@ -28,7 +28,6 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
         ],
         headless: process.env.headless === 'true',
         executablePath: executablePath(),
-        // userDataDir: '../../data/profiles/TTProfile'
     });
     const page = await browser.newPage();
     await page.authenticate({
@@ -49,7 +48,7 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     await sleep(10000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
-    await extractLinks(page, bot, chatId);
+    await extractAndCompareLinks(page, bot, chatId);
 
     await browser.close();
 }
@@ -62,15 +61,35 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-async function extractLinks(page, bot, chatId) {
-    const links = await page.evaluate(() => {
-        // Select all divs with the specific class and then get hrefs from nested a tags
+async function extractAndCompareLinks(page, bot, chatId) {
+    const extractedLinks = await page.evaluate(() => {
         const elements = document.querySelectorAll('div.css-at0k0c-DivWrapper a');
         return Array.from(elements).map(a => a.href);
     });
 
-    const message = links.length > 0 ? links.join('\n') : 'No links found.';
+    const existingLinks = JSON.parse(await fs.readFile('./links.json'));
+
+    const newLinks = extractedLinks.filter(link => !existingLinks.includes(link));
+    const removedLinks = existingLinks.filter(link => !extractedLinks.includes(link));
+
+    if (newLinks.length > 0 || removedLinks.length > 0) {
+        await fs.writeFile('./links.json', JSON.stringify(extractedLinks, null, 2));
+    }
+
+    const message = `New Links:\n${newLinks.join('\n')}\n\nRemoved Links:\n${removedLinks.join('\n')}`;
     await bot.sendMessage(chatId, message);
 }
 
-getCookies("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "cryptoeasyprofit", "Ii1492004", "./autocookie.json");
+// Function to start the recurring task
+function startRecurringTask() {
+    // Run the getCookies function immediately
+    getCookies("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "cryptoeasyprofit", "Ii1492004", "./autocookie.json");
+
+    // Schedule the getCookies function to run every 10 minutes
+    setInterval(() => {
+        getCookies(botToken, chatId, login, pass, cookieFile);
+    }, 10 * 60 * 1000); // 10 minutes in milliseconds
+}
+
+// Start the recurring task
+startRecurringTask();

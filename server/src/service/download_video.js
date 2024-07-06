@@ -1,42 +1,38 @@
-const axios = require('axios');
-const fs = require('fs');
-const Tiktok = require("@tobyg74/tiktok-api-dl");
+const { TiktokDownloader } = require("@tobyg74/tiktok-api-dl");
+const axios = require("axios");
+const fs = require("fs");
 
-const tiktok_url = "https://www.tiktok.com/@bestbet012/video/7365163179460152609";
+const tiktokUrl = 'https://www.tiktok.com/@bestbet012/video/7365163179460152609'
+ 
 
-Tiktok.Downloader(tiktok_url, {
-  version: "v2"
-}).then((result) => {
-  if (result.status === 'success') {
-    const videoUrl = result.result.video;
-    const filePath = 'tiktok_video.mp4';
+const sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 
+
+function downloadVideo(url) {
+  TiktokDownloader(url, {
+    version: "v3"
+  }).then((result) => {
+    console.log(`Скачивание видео ${url}`);
     axios({
-      method: 'get',
-      url: videoUrl,
+      url: result.result.video1,
+      method: 'GET',
       responseType: 'stream'
-    }).then((response) => {
-      const writeStream = fs.createWriteStream(filePath);
-
-      response.data.pipe(writeStream);
-
-      writeStream.on('finish', () => {
-        console.log(`Video downloaded successfully and saved to ${filePath}`);
-      });
-
-      writeStream.on('error', (err) => {
-        console.error('Error writing the video to file:', err);
-      });
-
-      response.data.on('error', (err) => {
-        console.error('Error during the download stream:', err);
-      });
-    }).catch((error) => {
-      console.error('Error fetching the video URL:', error);
+    }).then(response => {
+      const fileName = `video.mp4`; // Уникальное имя файла с использованием временной метки
+      const videoPath = `./${fileName}`;
+      response.data.pipe(fs.createWriteStream(videoPath));
+      console.log(`Видео успешно сохранено в файл ${fileName}`);
+    }).catch(error => {
+      console.error('Ошибка при скачивании видео:', error);
+      // Можно добавить обработку ошибок здесь
     });
-  } else {
-    console.error('Error with Tiktok Downloader:', result);
-  }
-}).catch((error) => {
-  console.error('Error with Tiktok API:', error);
-});
+  }).catch((error) => {
+    console.error('Ошибка:', error);
+    // Можно добавить обработку ошибок здесь
+  });
+}
+
+downloadVideo(tiktokUrl);
+
