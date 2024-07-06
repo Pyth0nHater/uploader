@@ -132,4 +132,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
+module.exports = { postReels };
+//postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');

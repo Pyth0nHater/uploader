@@ -2,13 +2,7 @@ const { TiktokDownloader } = require("@tobyg74/tiktok-api-dl");
 const axios = require("axios");
 const fs = require("fs");
 
-const tiktokUrl = 'https://www.tiktok.com/@bestbet012/video/7365163179460152609'
- 
-
-const sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-};
-
+const tiktokUrl = 'https://www.tiktok.com/@bestbet012/video/7365163179460152609';
 
 function downloadVideo(url) {
   TiktokDownloader(url, {
@@ -34,5 +28,6 @@ function downloadVideo(url) {
   });
 }
 
-downloadVideo(tiktokUrl);
+// Экспорт функции downloadVideo
+module.exports = { downloadVideo };
 
