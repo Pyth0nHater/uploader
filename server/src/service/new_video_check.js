@@ -5,8 +5,6 @@ const { executablePath } = require('puppeteer');
 const TelegramBot = require('node-telegram-bot-api');
 const { createCursor, installMouseHelper } = require("ghost-cursor");
 const dotenv = require('dotenv');
-const { downloadVideo } = require('./videoDownloader');
-const { postReels } = require('./upload');
 
 puppeteer.use(StealthPlugin());
 dotenv.config();
@@ -47,12 +45,15 @@ async function CheckVideos(botToken, chatId, jsonFile, jsonNewFile, jsonRemovedF
     await page.setCookie(...cookies);
 
     await page.goto(link, { waitUntil: 'domcontentloaded' });
-    await sleep(10000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
+    await sleep(15000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
-    await extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, jsonRemovedFile);
+    const newLinks = await extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, jsonRemovedFile);
 
     await browser.close();
+
+    // Return newLinks if there are new links, otherwise return false
+    return newLinks.length > 0 ? newLinks : false;
 }
 
 async function takeScreenshot(page, filename, bot, chatId) {
@@ -68,6 +69,10 @@ async function extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, 
         const elements = document.querySelectorAll('div.css-at0k0c-DivWrapper a');
         return Array.from(elements).map(a => a.href);
     });
+
+    if (extractedLinks.length === 0) {
+        return [];
+    }
 
     let existingLinks = [];
     try {
@@ -93,38 +98,7 @@ async function extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, 
     const message = `New Links:\n${newLinks.join('\n')}\n\nRemoved Links:\n${removedLinks.join('\n')}`;
     await bot.sendMessage(chatId, message);
 
-    for (const url of newLinks) {
-        try {
-            await downloadVideo(url);
-            await postReels('./video.mp4', "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
-
-            // Remove the URL from newLinks after successful postReels
-            const index = newLinks.indexOf(url);
-            if (index > -1) {
-                newLinks.splice(index, 1);
-                await fs.writeFile(jsonNewFile, JSON.stringify(newLinks, null, 2));
-            }
-
-        } catch (error) {
-            console.error(`Error posting reels for ${url}:`, error);
-            await bot.sendMessage(chatId, `Error posting reels for ${url}: ${error.message}`);
-        }
-    }
+    return newLinks;
 }
 
-function startRecurringTask() {
-    const botToken = '6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs';
-    const chatId = '819850346';
-    const jsonFile = "./links.json";
-    const jsonNewFile = "./newLinks.json";
-    const jsonRemovedFile = "./removedLinks.json";
-    const link = "https://www.tiktok.com/@bestbet012?_t=8nlbx15xTWx&_r=1";
-
-    CheckVideos(botToken, chatId, jsonFile, jsonNewFile, jsonRemovedFile, link);
-
-    setInterval(() => {
-        CheckVideos(botToken, chatId, jsonFile, jsonNewFile, jsonRemovedFile, link);
-    }, 10 * 60 * 1000);
-}
-
-startRecurringTask();
+module.exports = { CheckVideos };
