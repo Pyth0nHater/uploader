@@ -40,7 +40,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await cursor.toggleRandomMove(true);
 
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-    const cookies = JSON.parse(await fs.readFile('../../data/cookie/cookie.json'));
+    const cookies = JSON.parse(await fs.readFile('../../data/cookies/cookie.json'));
     await page.setCookie(...cookies);
 
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
