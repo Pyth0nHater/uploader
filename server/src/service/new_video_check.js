@@ -95,7 +95,7 @@ async function extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, 
         await fs.writeFile(jsonRemovedFile, JSON.stringify(removedLinks, null, 2));
     }
 
-    const message = `New Links:\n${newLinks.join('\n')}\n\nRemoved Links:\n${removedLinks.join('\n')}`;
+    const message = `New Links:\n${newLinks.join('\n')}\n`;
     await bot.sendMessage(chatId, message);
 
     return newLinks;
