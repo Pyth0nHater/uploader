@@ -9,7 +9,10 @@ const { executablePath } = require('puppeteer');
 const TelegramBot = require('node-telegram-bot-api');
 const { createCursor, installMouseHelper } = require("ghost-cursor");
 puppeteer.use(StealthPlugin());
+const dotenv = require('dotenv');
 
+
+dotenv.config();
 const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -26,7 +29,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
          '--no-sandbox',
          `--proxy-server=${ip}`,
         ],
-        headless: process.env.headless,
+        headless: false,
         executablePath: executablePath(),
        // userDataDir: './instProfile'
     });
@@ -40,7 +43,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await cursor.toggleRandomMove(true);
 
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-    const cookies = JSON.parse(await fs.readFile('../../data/cookies/cookie.json'));
+    const cookies = JSON.parse(await fs.readFile('./autocookie.json'));
     await page.setCookie(...cookies);
 
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
@@ -132,5 +135,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-module.exports = { postReels };
-//postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
+// module.exports = { postReels };
+postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');

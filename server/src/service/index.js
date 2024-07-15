@@ -32,7 +32,7 @@ async function main() {
 
     for (const url of newLinks) {
         try {
-            await downloadVideo(url);
+            downloadVideo(url);
             await postReels('./video.mp4', botToken, chatId, 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
 
             // Remove the URL from newLinks after successful postReels
