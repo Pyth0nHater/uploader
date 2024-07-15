@@ -11,10 +11,13 @@ const sleep = (milliseconds) => {
 
 async function main(botToken, chatId, login, pass, cookieFile) {
     const bot = new TelegramBot(botToken);
-    
+
     const browser = await puppeteer.launch({
+                 args: [
+          '--no-sandbox',
+         ],
         userDataDir: '../../data/profiles/Profile 9',
-        headless: false,
+        headless: true,
     });
     const page = await browser.newPage();
     const cursor = createCursor(page);
@@ -57,12 +60,12 @@ async function main(botToken, chatId, login, pass, cookieFile) {
     await cursor.move(login_btn)
     await cursor.click(login_btn)
     await takeScreenshot(page, '4.png', bot, chatId);
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
     const cookies = await page.cookies();
     await fs.writeFile(cookieFile, JSON.stringify(cookies, null, 2));
     await takeScreenshot(page, '5.png', bot, chatId);
-    
+
     console.log("successfully auth");
 
 }
@@ -76,5 +79,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
 }
 
 // module.exports = getCookies;
-main("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "cryptoeasyprofit", "Ii1492004", "./autocookie.json")
+main("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "bet.easy.bet", "Ii1492004", "./autocookie.json")
 // getCookies("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "bet.easy.bet", "Ii1492004", "./autocookie.json")
