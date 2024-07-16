@@ -3,18 +3,16 @@ const fs = require('fs').promises;
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv');
-const { downloadVideo } = require('./download_video');
+const { downloadTiktokVideo } = require('./download_video');
 const { postReels } = require('./upload');
 const { CheckVideos } = require('./new_video_check');  
 
 puppeteer.use(StealthPlugin());
 dotenv.config();
 
-
-
 async function main() {
-    const botToken = '6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs';
-    const chatId = '819850346';
+    const botToken = process.env.BOT_TOKEN;
+    const chatId = process.env.CHAT_ID;
     const jsonFile = "../../data/links/links.json";
     const jsonNewFile = "../../data/links/newLinks.json";
     const jsonRemovedFile = "../../data/links/removedLinks.json";
@@ -32,15 +30,12 @@ async function main() {
 
     for (const url of newLinks) {
         try {
-            downloadVideo(url);
+            await downloadTiktokVideo(url);
             await postReels('./video.mp4', botToken, chatId, 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
 
             // Remove the URL from newLinks after successful postReels
-            const index = newLinks.indexOf(url);
-            if (index > -1) {
-                newLinks.splice(index, 1);
-                await fs.writeFile(jsonNewFile, JSON.stringify(newLinks, null, 2));
-            }
+            const updatedLinks = newLinks.filter(link => link !== url);
+            await fs.writeFile(jsonNewFile, JSON.stringify(updatedLinks, null, 2));
 
         } catch (error) {
             console.error(`Error posting reels for ${url}:`, error);
@@ -49,5 +44,5 @@ async function main() {
     }
 }
 
-main()
+main();
 setInterval(main, 10 * 60 * 1000);
