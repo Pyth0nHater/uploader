@@ -5,7 +5,6 @@ const https = require('https');
 async function downloadTiktokVideo(url) {
   try {
     const result = await Tiktok.Downloader(url, { version: "v3" });
-    console.log(result);
 
     const downloadUrl = result.result.videoHD; // Use videoHD for high-definition video
     if (!downloadUrl) {
@@ -34,8 +33,6 @@ async function downloadTiktokVideo(url) {
   }
 }
 
-downloadTiktokVideo('https://www.tiktok.com/@bestbet012/video/7391104893873917217')
-  .catch(err => console.error('Failed to download video:', err));
 
 module.exports = {
   downloadTiktokVideo
