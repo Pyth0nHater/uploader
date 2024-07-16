@@ -48,6 +48,9 @@ async function postReels(videoPath, botToken, chatId, caption) {
 
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(5000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+
+    // await cursor.moveTo({x: 500, y:640})
+    // await cursor.click()
     await takeScreenshot(page, '1.png', bot, chatId);
 
     const turnoff_btn = 'button[class="_a9-- _ap36 _a9_1"]'
