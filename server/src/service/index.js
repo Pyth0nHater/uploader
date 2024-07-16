@@ -11,8 +11,8 @@ puppeteer.use(StealthPlugin());
 dotenv.config();
 
 async function main() {
-    const botToken = process.env.BOT_TOKEN;
-    const chatId = process.env.CHAT_ID;
+    const botToken = '6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs';
+    const chatId = '819850346';
     const jsonFile = "../../data/links/links.json";
     const jsonNewFile = "../../data/links/newLinks.json";
     const jsonRemovedFile = "../../data/links/removedLinks.json";
