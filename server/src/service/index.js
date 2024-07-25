@@ -5,10 +5,14 @@ const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv');
 const { downloadTiktokVideo } = require('./download_video');
 const { postReels } = require('./upload');
-const { CheckVideos } = require('./new_video_check');  
+const { CheckVideos } = require('./new_video_check');
 
 puppeteer.use(StealthPlugin());
 dotenv.config();
+
+const sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 
 async function main() {
     const botToken = '6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs';
@@ -16,7 +20,7 @@ async function main() {
     const jsonFile = "../../data/links/links.json";
     const jsonNewFile = "../../data/links/newLinks.json";
     const jsonRemovedFile = "../../data/links/removedLinks.json";
-    const link = "https://www.tiktok.com/@bestbet012?_t=8nlbx15xTWx&_r=1";
+    const link = "https://www.tiktok.com/@master_prognoz?_t=8o8GqT6Ifc0&_r=1";
 
     const bot = new TelegramBot(botToken);
 
@@ -31,8 +35,8 @@ async function main() {
     for (const url of newLinks) {
         try {
             await downloadTiktokVideo(url);
-            await postReels('./video.mp4', botToken, chatId, 'Link in bio #crypto #signals #profit #guide #binance #easycrypto');
-
+            await postReels('./video.mp4', botToken, chatId, 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');
+            await sleep(10000)
             // Remove the URL from newLinks after successful postReels
             const updatedLinks = newLinks.filter(link => link !== url);
             await fs.writeFile(jsonNewFile, JSON.stringify(updatedLinks, null, 2));
