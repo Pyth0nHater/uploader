@@ -5,8 +5,8 @@ const https = require('https');
 async function downloadTiktokVideo(url) {
   try {
     const result = await Tiktok.Downloader(url, { version: "v3" });
-
-    const downloadUrl = result.result.videoHD; // Use videoHD for high-definition video
+    console.log(result)
+    const downloadUrl = result.result.videoHD;
     if (!downloadUrl) {
       throw new Error('Download URL not found');
     }
@@ -18,7 +18,6 @@ async function downloadTiktokVideo(url) {
         response.pipe(file);
         file.on('finish', () => {
           file.close(() => {
-            console.log('Download Completed!');
             resolve('Download Completed!');
           });
         });
@@ -33,7 +32,7 @@ async function downloadTiktokVideo(url) {
   }
 }
 
-
+downloadTiktokVideo("https://www.tiktok.com/@master_prognoz/video/7392568690165796128")
 module.exports = {
   downloadTiktokVideo
 };

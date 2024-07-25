@@ -4,7 +4,10 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { executablePath } = require('puppeteer');
 const TelegramBot = require('node-telegram-bot-api');
 const { createCursor, installMouseHelper } = require("ghost-cursor");
+const dotenv = require('dotenv');
+
 puppeteer.use(StealthPlugin());
+dotenv.config();
 
 const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -14,17 +17,19 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     const bot = new TelegramBot(botToken);
 
      //Генерируем уникальный идентификатор для каталога userDataDir
-     const username = 'modeler_bib0v5';
-     const password = '6nGEpcc9FrxN';
+     const username = process.env.login;
+     const password = process.env.password;
+     const ip = process.env.ip;
+     console.log(username, password, ip)
 
      const browser = await puppeteer.launch({
          args: [
           '--no-sandbox',
-          `--proxy-server=http://46.30.189.50:11313`,
+          `--proxy-server=${ip}`,
          ],
-         headless: false,
+         headless: process.env.headless,
          executablePath: executablePath(),
-        userDataDir: './instProfile'
+        // userDataDir: './instProfile'
      });
      const page = await browser.newPage();
      await page.authenticate({
@@ -38,12 +43,19 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     const customUA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
     await page.setUserAgent(customUA);
 
-    await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded' });
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-
+    await page.goto("https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '1.png', bot, chatId);
 
+    const allow_all_cookie = '#cookie-policy-banner > div.xcq4dyp > div > div.x9f619.x1n2onr6.x1ja2u2z.x78zum5.xdt5ytf.x2lah0s.x193iq5w.xeuugli.xamitd3.xsyo7zv.x16hj40l.x10b6aqq.x1yrsyyn > div > div > div:nth-child(1) > div > div > div.x6s0dn4.x78zum5.xl56j7k.x1608yet.xljgi0e.x1e0frkt'
+    await cursor.move(allow_all_cookie)
+    await cursor.click(allow_all_cookie)
+    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await takeScreenshot(page, '2.png', bot, chatId);
+
+    await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded' });
+    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await takeScreenshot(page, '1.png', bot, chatId);
 
     const login_input = '#loginForm > div > div:nth-child(1) > div > label > input'
     await cursor.move(login_input)
@@ -67,11 +79,10 @@ async function getCookies(botToken, chatId, login, pass, cookieFile) {
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
     const cookies = await page.cookies();
-await fs.writeFile('./autocookie.json', JSON.stringify(cookies, null, 2));
+    await fs.writeFile(cookieFile, JSON.stringify(cookies, null, 2));
     await takeScreenshot(page, '5.png', bot, chatId);
     
     console.log("successfully auth");
-    await browser.close();
 
 }
 
@@ -85,4 +96,4 @@ async function takeScreenshot(page, filename, bot, chatId) {
 
 // module.exports = getCookies;
 
-getCookies("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "cryptoeasyprofit", "Ii1492004", "./cookies.json")
+getCookies("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "cryptoeasyprofit", "Ii1492004", "./autocookie.json")
