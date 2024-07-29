@@ -86,5 +86,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-module.exports = tiktokUpload;
+// module.exports = tiktokUpload;
 tiktokUpload();
