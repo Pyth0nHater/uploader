@@ -32,7 +32,7 @@ async function downloadTiktokVideo(url) {
   }
 }
 
-downloadTiktokVideo("https://www.tiktok.com/@master_prognoz/video/7392568690165796128")
+//downloadTiktokVideo("https://www.tiktok.com/@master_prognoz/video/7392568690165796128")
 module.exports = {
   downloadTiktokVideo
 };

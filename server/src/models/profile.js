@@ -14,7 +14,8 @@ const profileSchema = new mongoose.Schema({
   proxyPassword: { type: String },
   profileFolder: { type: String },
   video: { type: String },
-  cookie: { type: [Object], default: [] }
+  cookie: { type: [Object], default: [] },
+  description: { type: String, required: true } 
 });
 
 const Profile = mongoose.model('Profile', profileSchema);

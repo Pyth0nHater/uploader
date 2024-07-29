@@ -1,7 +1,6 @@
-// profileRoutes.js
 const express = require('express');
 const router = express.Router();
-const profileController = require('../controller/profile.contorller');
+const profileController = require('../controller/profile.controller'); // Ensure this path is correct
 
 // POST route to create a new profile
 router.post('/', profileController.createProfile);

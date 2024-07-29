@@ -4,20 +4,24 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { createCursor, installMouseHelper, randomMove } = require("ghost-cursor")
 const TelegramBot = require('node-telegram-bot-api');
 puppeteer.use(StealthPlugin());
+const Profile = require('../models/profile');
 
 const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function main(botToken, chatId, login, pass, cookieFile) {
+async function loginGetCookies(id) {
+    const profile = await Profile.findById(id)
+    const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
-
+    const chatId = profile.chatId
+    
     const browser = await puppeteer.launch({
                  args: [
           '--no-sandbox',
-         ],
-        userDataDir: '../../data/profiles/Profile 9',
-        headless: true,
+                        ],
+        userDataDir: profile.profileFolder,
+        headless: false,
     });
     const page = await browser.newPage();
     const cursor = createCursor(page);
@@ -45,7 +49,7 @@ async function main(botToken, chatId, login, pass, cookieFile) {
     await cursor.move(login_input)
     await cursor.click(login_input)
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-    await page.type(login_input, login, {delay: 100});
+    await page.type(login_input, profile.login, {delay: 100});
     await takeScreenshot(page, '2.png', bot, chatId);
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
@@ -53,7 +57,7 @@ async function main(botToken, chatId, login, pass, cookieFile) {
     await cursor.move(password_input)
     await cursor.click(password_input)
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-    await page.type(password_input, pass, {delay: 150});
+    await page.type(password_input, profile.password, {delay: 150});
     await takeScreenshot(page, '3.png', bot, chatId);
 
     const login_btn = '#loginForm > div > div:nth-child(3) > button'
@@ -63,7 +67,10 @@ async function main(botToken, chatId, login, pass, cookieFile) {
     await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
     const cookies = await page.cookies();
-    await fs.writeFile(cookieFile, JSON.stringify(cookies, null, 2));
+
+    profile.cookie = cookies;
+    await profile.save();
+    
     await takeScreenshot(page, '5.png', bot, chatId);
 
     console.log("successfully auth");
@@ -78,6 +85,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-// module.exports = getCookies;
-main("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "bet.easy.bet", "Ii1492004", "./autocookie.json")
-// getCookies("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs", "819850346", "bet.easy.bet", "Ii1492004", "./autocookie.json")
+module.exports = loginGetCookies;
+// loginGetCookies("6698fb32a9b8173255b766d2")

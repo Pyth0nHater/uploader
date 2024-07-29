@@ -29,7 +29,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
          '--no-sandbox',
          `--proxy-server=${ip}`,
         ],
-        headless: true,
+        headless: false,
         executablePath: executablePath(),
        // userDataDir: './instProfile'
     });
@@ -64,7 +64,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     //const repeat = 1
     for (let i = 0; i < repeat; i++) {
     await page.evaluate(() => {
-        window.scrollTo(0, 1000);
+        window.scrollTo(0, 100000000000);
     });
     await sleep(3000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
     }
@@ -76,8 +76,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await takeScreenshot(page, '3.png', bot, chatId);
 
     const post_btn = 'div[class="x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh x1uhb9sk x1plvlek xryxfnj x1iyjqo2 x2lwn1j xeuugli xdt5ytf xqjyukv x1cy8zhl x1oa3qoh x1nhvcw1"]'
-    await cursor.move(post_btn)
-    await cursor.click(post_btn)
+    await page.click(post_btn)
     await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '4.png', bot, chatId);
 
@@ -138,5 +137,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-module.exports = { postReels };
-//postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');
+// module.exports = { postReels };
+postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');

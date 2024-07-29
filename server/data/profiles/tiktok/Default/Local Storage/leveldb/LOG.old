@@ -1,0 +1,8 @@
+2024/07/29-03:32:28.188 35a4 Reusing MANIFEST C:\Users\korol\uploader\server\data\profiles\tiktok\Default\Local Storage\leveldb/MANIFEST-000001
+2024/07/29-03:32:28.196 35a4 Recovering log #19
+2024/07/29-03:32:28.196 35a4 Level-0 table #21: started
+2024/07/29-03:32:28.207 35a4 Level-0 table #21: 15034 bytes OK
+2024/07/29-03:32:28.207 35a4 Recovering log #21
+2024/07/29-03:32:28.223 35a4 Reusing old log C:\Users\korol\uploader\server\data\profiles\tiktok\Default\Local Storage\leveldb/000021.log 
+2024/07/29-03:32:28.226 35a4 Delete type=0 #19
+2024/07/29-03:32:28.226 35a4 Delete type=2 #22
