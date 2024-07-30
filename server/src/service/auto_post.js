@@ -26,7 +26,7 @@ async function main() {
     for (const url of newLinks) {
         try {
             await downloadTiktokVideo(url);
-            await sleep(20000)
+            await sleep(120000)
             await postReels('./video.mp4', botToken, chatId, 'Белая тема в профиле💸  #успех #мотивация #деньги');
             const delay = (4 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay);
