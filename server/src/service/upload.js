@@ -60,8 +60,8 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await takeScreenshot(page, '2.png', bot, chatId);
 
 
-    const repeat = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
-    //const repeat = 1
+    // const repeat = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+    const repeat = 2
     for (let i = 0; i < repeat; i++) {
     await page.evaluate(() => {
         window.scrollTo(0, 100000000000);
@@ -121,7 +121,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     const share_btn =  'body > div.x1n2onr6.xzkaem6 > div.x9f619.x1n2onr6.x1ja2u2z > div > div.x1uvtmcs.x4k7w5x.x1h91t0o.x1beo9mf.xaigb6o.x12ejxvf.x3igimt.xarpa2k.xedcshv.x1lytzrv.x1t2pt76.x7ja8zs.x1n2onr6.x1qrby5j.x1jfb8zj > div > div > div > div > div > div > div > div._ap97 > div > div > div > div._ac7b._ac7d > div > div'
     await cursor.move(share_btn)
     await cursor.click(share_btn)
-    await sleep(30000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sleep(60000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '10.png', bot, chatId);
     console.log("Successfully posted");
     await browser.close();
@@ -137,5 +137,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-// module.exports = { postReels };
-postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');
+module.exports = { postReels };
+// postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');
