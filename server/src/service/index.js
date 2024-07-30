@@ -20,8 +20,8 @@ async function main() {
     const jsonFile = "../../data/links/links.json";
     const jsonNewFile = "../../data/links/newLinks.json";
     const jsonRemovedFile = "../../data/links/removedLinks.json";
-    const link = "https://www.tiktok.com/@master_prognoz?_t=8o8GqT6Ifc0&_r=1";
-
+    // const link = "https://www.tiktok.com/@master_prognoz?_t=8o8GqT6Ifc0&_r=1";
+    const link = "    https://www.tiktok.com/@tema.black?_t=8oSqanmYPmq&_r=1";
     const bot = new TelegramBot(botToken);
 
     // Fetch new and removed links
@@ -35,7 +35,8 @@ async function main() {
     for (const url of newLinks) {
         try {
             await downloadTiktokVideo(url);
-            await postReels('./video.mp4', botToken, chatId, 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');
+            // await postReels('./video.mp4', botToken, chatId, 'Ссылка в профиле #футбол #договорняк #ставки #ловимкэфы');
+            await postReels('./video.mp4', botToken, chatId, 'Белая тема в профиле💸  #успех #мотивация #деньги');
             await sleep(10000)
             // Remove the URL from newLinks after successful postReels
             const updatedLinks = newLinks.filter(link => link !== url);
