@@ -29,7 +29,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
          '--no-sandbox',
          `--proxy-server=${ip}`,
         ],
-        headless: false,
+        headless: true,
         executablePath: executablePath(),
        // userDataDir: './instProfile'
     });
