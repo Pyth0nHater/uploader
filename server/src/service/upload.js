@@ -81,7 +81,6 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await takeScreenshot(page, '4.png', bot, chatId);
 
     const elementHandle = await page.$('input[type="file"]');
-    await page.click(elementHandle)
     await elementHandle.uploadFile('./video.mp4');
 
     await sleep(15000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
