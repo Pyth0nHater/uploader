@@ -137,5 +137,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-// module.exports = { postReels };
-postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Белая темака в профиле💸  #успех #мотивация #деньги');
+module.exports = { postReels };
+//postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Белая темака в профиле💸  #успех #мотивация #деньги');
