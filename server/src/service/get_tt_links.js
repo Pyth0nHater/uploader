@@ -119,7 +119,7 @@ const botToken = '6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs';
     const jsonFile = "../../data/links/links.json";
     const jsonNewFile = "../../data/links/newLinks.json";
     const jsonRemovedFile = "../../data/links/removedLinks.json";
-    const link = "https://www.tiktok.com/@tema.black?_t=8oSqanmYPmq&_r=1";
+    const link = "https://www.tiktok.com/@xperezzq?_t=8oZjItGTewZ&_r=1";
 
 
     // Fetch new and removed links
