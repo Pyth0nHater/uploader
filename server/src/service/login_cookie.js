@@ -74,7 +74,7 @@ async function loginGetCookies(id) {
     await takeScreenshot(page, '5.png', bot, chatId);
 
     console.log("successfully auth");
-
+    await browser.close();
 }
 
 async function takeScreenshot(page, filename, bot, chatId) {

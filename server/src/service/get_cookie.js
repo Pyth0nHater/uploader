@@ -37,10 +37,11 @@ async function getCookies(id) {
     await takeScreenshot(page, '1.png', bot, chatId);
 
     const cookies = await page.cookies();
-    await fs.writeFile(profile.cookie, JSON.stringify(cookies, null, 2));
-    await takeScreenshot(page, '2.png', bot, chatId);
+    profile.cookie = cookies;
+    await profile.save();
 
     console.log("successfully auth");
+    await browser.close()
 
 }
 

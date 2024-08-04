@@ -75,15 +75,8 @@ async function extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, 
             return Array.from(document.querySelectorAll('div.css-at0k0c-DivWrapper a')).map(a => a.href);
         });
         scrollAttempts++
-        // if (newLinks.length === extractedLinks.length) {
-        //     scrollAttempts++;
-        // } else {
-        //     scrollAttempts = 0;
-        // }
-
         extractedLinks = newLinks;
 
-        // Wait for content to load
         await sleep(2000 + Math.floor(Math.random() * (2000 - 500 + 1)) + 500);
     }
 
