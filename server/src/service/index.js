@@ -21,7 +21,7 @@ async function main() {
     const jsonNewFile = "../../data/links/newLinks.json";
     const jsonRemovedFile = "../../data/links/removedLinks.json";
     // const link = "https://www.tiktok.com/@master_prognoz?_t=8o8GqT6Ifc0&_r=1";
-    const link = "    https://www.tiktok.com/@tema.black?_t=8oSqanmYPmq&_r=1";
+    const link = "https://www.tiktok.com/@tema.black?_t=8oSqanmYPmq&_r=1";
     const bot = new TelegramBot(botToken);
 
     // Fetch new and removed links

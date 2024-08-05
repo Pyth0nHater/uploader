@@ -31,7 +31,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
         ],
         headless: true,
         executablePath: executablePath(),
-       // userDataDir: './instProfile'
+        userDataDir: '../../data/profiles/6698fb32a9b8173255b766d2'
     });
     const page = await browser.newPage();
     await page.authenticate({
@@ -43,8 +43,8 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await cursor.toggleRandomMove(true);
 
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-    const cookies = JSON.parse(await fs.readFile('./autocookie.json'));
-    await page.setCookie(...cookies);
+    // const cookies = JSON.parse(await fs.readFile('./autocookie.json'));
+    // await page.setCookie(...cookies);
 
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(5000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
@@ -60,8 +60,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await takeScreenshot(page, '2.png', bot, chatId);
 
 
-    // const repeat = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
-    const repeat = 2
+    const repeat = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
     for (let i = 0; i < repeat; i++) {
     await page.evaluate(() => {
         window.scrollTo(0, 100000000000);

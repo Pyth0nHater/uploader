@@ -4,8 +4,8 @@ const createProfile = async (profileData) => {
   try {
     const profile = new Profile(profileData);
     await profile.save();
-    profile.profileFolder = `../../data/profiles/${profile._id}`;
-    profile.video = `../../data/videos/${profile._id}.mp4`;
+    profile.profileFolder = `server/data/profiles/${profile._id}`;
+    profile.video = `server/data/profiles/${profile._id}.mp4`;
     await profile.save();
     return profile;
   } catch (error) {
