@@ -17,7 +17,7 @@ const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function postReels(videoPath, botToken, chatId, caption) {
+async function progrev(botToken, chatId, hashtag) {
     const bot = new TelegramBot(botToken);
     const username = process.env.login;
     const password = process.env.password;
@@ -64,7 +64,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
 
 
     const search_input = 'input[aria-label="Search input"]'
-    await page.type(search_input, caption, {delay: 100});
+    await page.type(search_input, hashtag, {delay: 100});
     await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '9.png', bot, chatId);
 
@@ -103,6 +103,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
         await sleep(15000 + Math.floor(Math.random() * (5000 - 500 + 1)) + 500);
     }
 
+    await browser.close()
 }
 
 async function takeScreenshot(page, filename, bot, chatId) {
@@ -113,5 +114,5 @@ async function takeScreenshot(page, filename, bot, chatId) {
     await fs.unlink(screenshotPath);
 }
 
-//module.exports = { postReels };
-postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", '#крипта');
+//module.exports = { progrev };
+progrev("6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", '#крипта');

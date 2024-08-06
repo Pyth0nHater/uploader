@@ -4,6 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const profileRoutes = require('./src/routes/profile.routes');
 const cors = require('cors');
 const authRoutes = require('./src/routes/cookie.routes');
+const reelsRoute = require('./src/routes/reels.routes');
 
 const app = express();
 const port = 5000;
@@ -40,6 +41,7 @@ bot.on('message', (msg) => {
 // Маршруты для профилей
 app.use('/profiles', profileRoutes);
 app.use('/cookies', authRoutes);
+app.use('/', reelsRoute)
 
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);

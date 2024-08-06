@@ -27,11 +27,10 @@ async function postReels(videoPath, botToken, chatId, caption) {
     const browser = await puppeteer.launch({
         args: [
          '--no-sandbox',
-         `--proxy-server=${ip}`,
         ],
         headless: true,
         executablePath: executablePath(),
-        userDataDir: '../../data/profiles/6698fb32a9b8173255b766d2'
+        userDataDir: '../../../profiles/6698fb32a9b8173255b766d2'
     });
     const page = await browser.newPage();
     await page.authenticate({
@@ -53,11 +52,16 @@ async function postReels(videoPath, botToken, chatId, caption) {
     // await cursor.click()
     await takeScreenshot(page, '1.png', bot, chatId);
 
+
     const turnoff_btn = 'button[class="_a9-- _ap36 _a9_1"]'
-    await cursor.move(turnoff_btn)
-    await cursor.click(turnoff_btn)
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-    await takeScreenshot(page, '2.png', bot, chatId);
+
+    let isExist = (await page.$(turnoff_btn)) || "";
+    if(isExist){
+        await cursor.move(turnoff_btn)
+        await cursor.click(turnoff_btn)
+        await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+        await takeScreenshot(page, '2.png', bot, chatId);
+    }
 
 
     const repeat = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
@@ -86,9 +90,14 @@ async function postReels(videoPath, botToken, chatId, caption) {
     await takeScreenshot(page, '5.png', bot, chatId);
 
     const ok_btn = 'button[class=" _acan _acap _acaq _acas _acav _aj1- _ap30"]'
-    await cursor.move(ok_btn)
-    await cursor.click(ok_btn)
-    await sleep(7000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+
+    let isExist2 = (await page.$(ok_btn)) || "";
+    if(isExist2){
+        await cursor.move(ok_btn)
+        await cursor.click(ok_btn)
+        await sleep(7000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    }
+
 
     const chooseFormat_btn = 'body > div.x1n2onr6.xzkaem6 > div.x9f619.x1n2onr6.x1ja2u2z > div > div.x1uvtmcs.x4k7w5x.x1h91t0o.x1beo9mf.xaigb6o.x12ejxvf.x3igimt.xarpa2k.xedcshv.x1lytzrv.x1t2pt76.x7ja8zs.x1n2onr6.x1qrby5j.x1jfb8zj > div > div > div > div > div > div > div > div.xdl72j9.x1iyjqo2.xs83m0k.x15wfb8v.x3aagtl.xqbdwvv.x6ql1ns.x1cwzgcd > div.x6s0dn4.x78zum5.x5yr21d.xl56j7k.x1n2onr6.xh8yej3 > div > div > div > div.x9f619.xjbqb8w.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1xmf6yo.x1emribx.x1e56ztr.x1i64zmx.x10l6tqk.x1ey2m1c.x17qophe.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1nhvcw1 > div > div:nth-child(2) > div > button > div > svg'
     await cursor.move(chooseFormat_btn)
