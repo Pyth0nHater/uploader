@@ -19,10 +19,11 @@ const sleep = (milliseconds) => {
 };
 
 async function scrollReels(id) {
-    const profile = await Profile.findById(id)
+    // const profile = await Profile.findById(id)
     const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
-    const chatId = profile.chatId
+    // const chatId = profile.chatId
+    const chatId = "819850346"
 
     
     const username = process.env.login;
@@ -33,11 +34,10 @@ async function scrollReels(id) {
     const browser = await puppeteer.launch({
         args: [
          '--no-sandbox',
-         `--proxy-server=${ip}`,
         ],
         headless: false,
         executablePath: executablePath(),
-        // userDataDir: 'C:\\Users\\korol\\uploader\\profiles\\6698fb32a9b8173255b766d2'
+       userDataDir: '../../../profiles/6698fb32a9b8173255b766d2'
     });
     const page = await browser.newPage();
     await page.authenticate({
@@ -48,26 +48,40 @@ async function scrollReels(id) {
     await installMouseHelper(page)
     await cursor.toggleRandomMove(true);
 
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-    const cookies = profile.cookie
-    await page.setCookie(...cookies);
+    // await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
+    // const cookies = profile.cookie
+    // await page.setCookie(...cookies);
 
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '1.png', bot, chatId);
 
+
     const turnoff_btn = 'button[class="_a9-- _ap36 _a9_1"]'
-    await cursor.move(turnoff_btn)
-    await cursor.click(turnoff_btn)
-    await sleep(5000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+
+    let isExist = (await page.$(turnoff_btn)) || "";
+    if(isExist){
+        await cursor.move(turnoff_btn)
+        await cursor.click(turnoff_btn)
+        await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+        await takeScreenshot(page, '2.png', bot, chatId);
+    }
+
+
+    const reels_btn = 'svg[aria-label="Reels"]'
+    await cursor.move(reels_btn)
+    await cursor.click(reels_btn)
+    await cursor.moveTo({x: 500, y:640})
+    await sleep(5000 + Math.floor(Math.random() * (5000 - 500 + 1)) + 500);
     await takeScreenshot(page, '2.png', bot, chatId);
 
-    const search_btn = 'svg[aria-label="Search"]'
-    await cursor.move(search_btn)
-    await cursor.click(search_btn)
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-    await takeScreenshot(page, '2.png', bot, chatId);
+    const videosCounter = Math.floor(Math.random() * (40 - 20 + 1)) + 20;
+    for (let i = 0; i < videosCounter; i++) {
+        await page.mouse.wheel({deltaY: 1000});
+        await sleep(1000 + Math.floor(Math.random() * (10000 - 500 + 1)) + 500);
+    }
 
+    await browser.close()
 
 }
 

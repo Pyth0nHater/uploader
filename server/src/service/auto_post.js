@@ -5,6 +5,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv');
 const { downloadTiktokVideo } = require('./download_video');
 const { postReels } = require('./upload');
+const { scrollReels } = require('./reels');
 
 
 puppeteer.use(StealthPlugin());
@@ -28,10 +29,13 @@ async function main() {
             await downloadTiktokVideo(url);
             const videoPath = './video.mp4';
             await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
-            await sleep(20000)
+            await sleep(10000)
             await postReels('./video.mp4', botToken, chatId, 'Белая темака в профиле💸  #успех #мотивация #деньги');
-            const delay = (4 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
+            const delay = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay);
+            scrollReels('6698fb32a9b8173255b766d2');
+            const delay_2 = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
+            await sleep(delay_2);
         } catch (error) {
             console.error(`Error posting reels for ${url}:`, error);
             await bot.sendMessage(chatId, `Error posting reels for ${url}: ${error.message}`);
