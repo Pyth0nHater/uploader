@@ -30,7 +30,7 @@ async function main() {
             const videoPath = './video.mp4';
             await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
             await sleep(10000)
-            await postReels('./video.mp4', botToken, chatId, 'Белая темака в профиле💸  #успех #мотивация #деньги');
+            await postReels("6698fb32a9b8173255b766d2", 'Белая темка в профиле💸 #успех #мотивация #деньги');
             const delay = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay);
             await scrollReels('6698fb32a9b8173255b766d2');
