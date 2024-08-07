@@ -37,7 +37,7 @@ async function scrollReels(id) {
         ],
         headless: false,
         executablePath: executablePath(),
-       userDataDir: '../../../profiles/6698fb32a9b8173255b766d2'
+        userDataDir: `../../profiles/${id}`
     });
     const page = await browser.newPage();
     await page.authenticate({

@@ -12,10 +12,9 @@ const createProfile = async (req, res) => {
 };
 
 // Fetch profiles by chatId
-const getProfilesByChatId = async (req, res) => {
-  const { chatId } = req.query;
+const getProfiles = async (req, res) => {
   try {
-    const profiles = await profileService.getProfilesByChatId(chatId);
+    const profiles = await profileService.getProfiles();
     res.status(200).send(profiles);
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -38,6 +37,6 @@ const getProfileById = async (req, res) => {
 
 module.exports = {
   createProfile,
-  getProfilesByChatId,
+  getProfiles,
   getProfileById,
 };

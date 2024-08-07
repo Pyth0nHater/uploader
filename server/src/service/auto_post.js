@@ -33,7 +33,7 @@ async function main() {
             await postReels('./video.mp4', botToken, chatId, 'Белая темака в профиле💸  #успех #мотивация #деньги');
             const delay = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay);
-            scrollReels('6698fb32a9b8173255b766d2');
+            await scrollReels('6698fb32a9b8173255b766d2');
             const delay_2 = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay_2);
         } catch (error) {

@@ -4,8 +4,8 @@ const createProfile = async (profileData) => {
   try {
     const profile = new Profile(profileData);
     await profile.save();
-    profile.profileFolder = `server/data/profiles/${profile._id}`;
-    profile.video = `server/data/profiles/${profile._id}.mp4`;
+    profile.profileFolder = `profiles/${profile._id}`;
+    profile.video = `profiles/${profile._id}.mp4`;
     await profile.save();
     return profile;
   } catch (error) {
@@ -13,9 +13,9 @@ const createProfile = async (profileData) => {
   }
 };
 
-const getProfilesByChatId = async (chatId) => {
+const getProfiles = async () => {
   try {
-    return await Profile.find({ chatId });
+    return await Profile.find({});
   } catch (error) {
     throw new Error(`Error fetching profiles: ${error.message}`);
   }
@@ -31,6 +31,6 @@ const getProfileById = async (id) => {
 
 module.exports = {
   createProfile,
-  getProfilesByChatId,
+  getProfiles,
   getProfileById,
 };

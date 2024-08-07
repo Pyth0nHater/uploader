@@ -6,7 +6,7 @@ const profileController = require('../controller/profile.controller'); // Ensure
 router.post('/', profileController.createProfile);
 
 // GET route to fetch profiles by chatId
-router.get('/', profileController.getProfilesByChatId);
+router.get('/', profileController.getProfiles);
 
 // GET route to fetch a specific profile by _id
 router.get('/:id', profileController.getProfileById);

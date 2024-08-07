@@ -66,7 +66,6 @@ async function takeScreenshot(page, filename, bot, chatId) {
 
 async function extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, jsonRemovedFile) {
     let extractedLinks = [];
-    let previousHeight;
     let scrollAttempts = 0;
 
     while (scrollAttempts < 10) {  // Adjust the number of attempts based on the page's length and loading speed

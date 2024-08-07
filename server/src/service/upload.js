@@ -17,8 +17,13 @@ const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function postReels(videoPath, botToken, chatId, caption) {
+async function postReels(id, caption) {
+    // const profile = await Profile.findById(id)
+    const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
+    // const chatId = profile.chatId
+    const chatId = "819850346"
+
     const username = process.env.login;
     const password = process.env.password;
     const ip = process.env.ip;
@@ -30,7 +35,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
         ],
         headless: true,
         executablePath: executablePath(),
-        userDataDir: '../../../profiles/6698fb32a9b8173255b766d2'
+        userDataDir: `../../profiles/${id}`
     });
     const page = await browser.newPage();
     await page.authenticate({
@@ -98,7 +103,6 @@ async function postReels(videoPath, botToken, chatId, caption) {
         await sleep(7000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     }
 
-
     const chooseFormat_btn = 'body > div.x1n2onr6.xzkaem6 > div.x9f619.x1n2onr6.x1ja2u2z > div > div.x1uvtmcs.x4k7w5x.x1h91t0o.x1beo9mf.xaigb6o.x12ejxvf.x3igimt.xarpa2k.xedcshv.x1lytzrv.x1t2pt76.x7ja8zs.x1n2onr6.x1qrby5j.x1jfb8zj > div > div > div > div > div > div > div > div.xdl72j9.x1iyjqo2.xs83m0k.x15wfb8v.x3aagtl.xqbdwvv.x6ql1ns.x1cwzgcd > div.x6s0dn4.x78zum5.x5yr21d.xl56j7k.x1n2onr6.xh8yej3 > div > div > div > div.x9f619.xjbqb8w.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1xmf6yo.x1emribx.x1e56ztr.x1i64zmx.x10l6tqk.x1ey2m1c.x17qophe.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1nhvcw1 > div > div:nth-child(2) > div > button > div > svg'
     await cursor.move(chooseFormat_btn)
     await cursor.click(chooseFormat_btn)
@@ -134,7 +138,7 @@ async function postReels(videoPath, botToken, chatId, caption) {
     console.log("Successfully posted");
     await browser.close();
 
-    await fs.unlink(videoPath);
+    // await fs.unlink(videoPath);
 }
 
 async function takeScreenshot(page, filename, bot, chatId) {
@@ -146,4 +150,4 @@ async function takeScreenshot(page, filename, bot, chatId) {
 }
 
 module.exports = { postReels };
-//postReels('./video.mp4',"6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs","819850346", 'Белая темака в профиле💸  #успех #мотивация #деньги');
+//postReels("6698fb32a9b8173255b766d2", 'Белая темака в профиле💸 #успех #мотивация #деньги');
