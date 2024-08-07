@@ -35,7 +35,7 @@ async function scrollReels(id) {
         args: [
          '--no-sandbox',
         ],
-        headless: false,
+        headless: true,
         executablePath: executablePath(),
         userDataDir: `../../profiles/${id}`
     });
