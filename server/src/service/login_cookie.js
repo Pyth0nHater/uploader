@@ -21,7 +21,7 @@ async function loginGetCookies(id) {
           '--no-sandbox',
                         ],
         userDataDir: profile.profileFolder,
-        headless: false,
+        headless: true,
     });
     const page = await browser.newPage();
     const cursor = createCursor(page);
