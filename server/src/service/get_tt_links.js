@@ -28,9 +28,9 @@ async function GetLinksTikTok(id) {
         args: [
             '--no-sandbox',
         ],
-        headless: true,
+        headless: false,
         executablePath: executablePath(),
-        userDataDir: `../data/profiles/tiktok`
+        userDataDir: `../data/profiles/tiktok_kz`
     });
     const page = await browser.newPage();
 
@@ -46,7 +46,7 @@ async function GetLinksTikTok(id) {
     await sleep(15000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
-    extractAndCompareLinks(page, profile);
+    await extractAndCompareLinks(page, profile);
 
     await browser.close();
 }
