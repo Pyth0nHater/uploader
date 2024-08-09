@@ -10,6 +10,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const { createCursor, installMouseHelper } = require("ghost-cursor");
 puppeteer.use(StealthPlugin());
 const dotenv = require('dotenv');
+const Profile = require('../models/profile');
+
 
 
 dotenv.config();
@@ -17,12 +19,12 @@ const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function postReels(id, caption) {
-    // const profile = await Profile.findById(id)
+async function postReels(id) {
+    const profile = await Profile.findById(id)
     const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
-    // const chatId = profile.chatId
-    const chatId = "819850346"
+    const chatId = profile.chatId
+    const caption = profile.description
 
     const username = process.env.login;
     const password = process.env.password;
@@ -89,7 +91,7 @@ async function postReels(id, caption) {
     await takeScreenshot(page, '4.png', bot, chatId);
 
     const elementHandle = await page.$('input[type="file"]');
-    await elementHandle.uploadFile('./video.mp4');
+    await elementHandle.uploadFile(`./{${id}}.mp4`);
 
     await sleep(15000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '5.png', bot, chatId);

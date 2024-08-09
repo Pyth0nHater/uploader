@@ -3,10 +3,10 @@ const fs = require('fs').promises;
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv');
-const { downloadTiktokVideo } = require('./download_video');
+const { downloadAndProcessTiktokVideo } = require('./download_unique');
 const { postReels } = require('./upload');
 const { scrollReels } = require('./reels');
-
+const Profile = require('../models/profile');
 
 puppeteer.use(StealthPlugin());
 dotenv.config();
@@ -15,25 +15,24 @@ const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function main() {
-    const botToken = '6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs';
-    const chatId = '819850346';
-    const jsonFile = '../../data/links/links.json';
-    const data = await fs.readFile(jsonFile, 'utf8');
-    const newLinks = JSON.parse(data);
-    
+async function main(id) {
+    const profile = await Profile.findById(id)
+    const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
+    const chatId = profile.chatId
+    const links = profile.links
     
-    for (const url of newLinks) {
+    
+    for (const url of links) {
         try {
-            await downloadTiktokVideo(url);
-            const videoPath = './video.mp4';
+            await downloadAndProcessTiktokVideo(id, url);
+            const videoPath = `../../videos/${id}_unique.mp4`;
             await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
             await sleep(10000)
-            await postReels("66b2ad316a3bab0dd72f1347", 'Белая темка в профиле💸 #успех #мотивация #деньги');
+            await postReels(id);
             const delay = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay);
-            await scrollReels('66b2ad316a3bab0dd72f1347');
+            await scrollReels(id);
             const delay_2 = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay_2);
         } catch (error) {
@@ -43,4 +42,5 @@ async function main() {
     }
 }
 
-main();
+//main("66b2ad316a3bab0dd72f1347");
+module.exports = { main }

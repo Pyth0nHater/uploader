@@ -45,18 +45,19 @@ async function loginGetCookies(id) {
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '1.png', bot, chatId);
 
+
     const login_input = '#loginForm > div > div:nth-child(1) > div > label > input'
+
+    await page.waitForSelector(login_input)
     await cursor.move(login_input)
     await cursor.click(login_input)
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await page.type(login_input, profile.login, {delay: 100});
     await takeScreenshot(page, '2.png', bot, chatId);
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sleep(1000+Math.floor(Math.random() * (1000 - 500 + 1)) + 500)
 
     const password_input = '#loginForm > div > div:nth-child(2) > div > label > input'
     await cursor.move(password_input)
     await cursor.click(password_input)
-    await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await page.type(password_input, profile.password, {delay: 150});
     await takeScreenshot(page, '3.png', bot, chatId);
 
@@ -67,7 +68,6 @@ async function loginGetCookies(id) {
     await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
     const cookies = await page.cookies();
-
     profile.cookie = cookies;
     await profile.save();
     

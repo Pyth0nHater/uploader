@@ -5,6 +5,8 @@ const profileRoutes = require('./src/routes/profile.routes');
 const cors = require('cors');
 const authRoutes = require('./src/routes/cookie.routes');
 const reelsRoute = require('./src/routes/reels.routes');
+const tiktokRoutes = require('./src/routes/tiktok.routes');
+const upload = require('./src/routes/upload.routes')
 
 const app = express();
 const port = 5000;
@@ -42,6 +44,9 @@ bot.on('message', (msg) => {
 app.use('/profiles', profileRoutes);
 app.use('/cookies', authRoutes);
 app.use('/', reelsRoute)
+app.use('/tiktok', tiktokRoutes)
+app.use('/', upload)
+
 
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
