@@ -22,14 +22,23 @@ async function GetLinksTikTok(id) {
     const chatId = profile.chatId
     const link = profile.tiktok
 
+    const username = process.env.login;
+    const password = process.env.password;
+    const ip = process.env.ip;
+
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
+            `--proxy-server=${ip}`,
         ],
-        headless: true,
+        headless: process.env.headless === 'true',
         executablePath: executablePath(),
     });
     const page = await browser.newPage();
+    await page.authenticate({
+        username: username,
+        password: password,
+    });
     const cursor = createCursor(page);
     await installMouseHelper(page);
     await cursor.toggleRandomMove(true);
@@ -37,16 +46,16 @@ async function GetLinksTikTok(id) {
     const customUA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
     await page.setUserAgent(customUA);
 
-    const cookies = JSON.parse(await fs.readFile('./tiktok.json'));
+    const cookies = JSON.parse(await fs.readFile('../../data/cookies/tiktok_cookie.json'));
     await page.setCookie(...cookies);
 
     await page.goto(link, { waitUntil: 'domcontentloaded' });
     await sleep(15000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
-    await extractAndCompareLinks(page, bot, chatId, profile);
+    extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, jsonRemovedFile);
 
-    await browser.close()
+    await browser.close();
 }
 
 async function takeScreenshot(page, filename, bot, chatId) {

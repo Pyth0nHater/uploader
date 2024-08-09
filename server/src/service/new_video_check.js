@@ -44,7 +44,7 @@ async function CheckVideos(botToken, chatId, jsonFile, jsonNewFile, jsonRemovedF
     const cookies = JSON.parse(await fs.readFile('../../data/cookies/tiktok_cookie.json'));
     await page.setCookie(...cookies);
 
-    await page.goto(link, { waitUntil: 'domcontentloaded' });
+    await page.goto("https://www.tiktok.com/@master_prognoz?_t=8ojWZCxD0tu&_r=1", { waitUntil: 'domcontentloaded' });
     await sleep(15000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
