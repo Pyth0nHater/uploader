@@ -21,6 +21,8 @@ async function main(id) {
     const bot = new TelegramBot(botToken);
     const chatId = profile.chatId
     const links = profile.links
+
+    await GetLinksTikTok(id)
     
     
     for (const url of links) {

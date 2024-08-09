@@ -32,7 +32,7 @@ async function GetLinksTikTok(id) {
             '--no-sandbox',
             `--proxy-server=${ip}`,
         ],
-        headless: process.env.headless === 'true',
+        headless: true,
         executablePath: executablePath(),
     });
     const page = await browser.newPage();
