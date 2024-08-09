@@ -46,7 +46,7 @@ async function GetLinksTikTok(id) {
     const customUA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
     await page.setUserAgent(customUA);
 
-    const cookies = JSON.parse(await fs.readFile('../../data/cookies/tiktok_cookie.json'));
+    const cookies = JSON.parse(await fs.readFile('server\\data\\cookies\\tiktok_cookie.json'));
     await page.setCookie(...cookies);
 
     await page.goto(link, { waitUntil: 'domcontentloaded' });
