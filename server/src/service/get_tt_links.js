@@ -30,16 +30,11 @@ async function GetLinksTikTok(id) {
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
-            `--proxy-server=${ip}`,
         ],
         headless: true,
         executablePath: executablePath(),
     });
     const page = await browser.newPage();
-    await page.authenticate({
-        username: username,
-        password: password,
-    });
     const cursor = createCursor(page);
     await installMouseHelper(page);
     await cursor.toggleRandomMove(true);
