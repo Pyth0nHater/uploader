@@ -46,7 +46,7 @@ async function GetLinksTikTok(id) {
     await sleep(15000 + Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
 
     await takeScreenshot(page, '1.png', bot, chatId);
-    extractAndCompareLinks(page, bot, chatId, jsonFile, jsonNewFile, jsonRemovedFile);
+    extractAndCompareLinks(page, profile);
 
     await browser.close();
 }
