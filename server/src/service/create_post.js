@@ -39,7 +39,7 @@ async function main(id) {
         try {
             await addTextToVideo()
             const videoPath = `../../videos/${id}_unique.mp4`;
-            //await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
+            await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
             await sleep(10000)
             await postReels(id);
             const delay = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));

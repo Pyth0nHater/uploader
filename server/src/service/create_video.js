@@ -57,17 +57,17 @@ function addTextToVideo() {
   const outputVideoPath = '../../videos/66cb6e8c3b53d62a5e875fe8_unique.mp4';
   
   // Функция для создания фильтра drawtext для каждой строки текста
-  function createDrawTextFilter(textLines, startY, fontSize = 31) {
+  function createDrawTextFilter(textLines, startY, fontSize = 27) {
     return textLines.map((line, index) => 
       `drawtext=text='${line}':fontfile=font.ttf:fontcolor=white:fontsize=${fontSize}:x=(w-text_w)/2:y=${startY + (index * (fontSize + 10))}`
     ).join(',');
   }
   
   // Создание фильтра drawtext для каждого блока текста
-  const text1Filter = `drawtext=text='${text1}':fontfile=font.ttf:fontcolor=white:fontsize=50:x=(w-text_w)/2:y=100`;
+  const text1Filter = `drawtext=text='${text1}':fontfile=font.ttf:fontcolor=white:fontsize=60:x=(w-text_w)/2:y=190`;
   const text2Filter = createDrawTextFilter(text2, 450);
   const text3Filter = createDrawTextFilter(text3, 600);
-  const text4Filter = createDrawTextFilter(splitText(text4), 1050);
+  const text4Filter = createDrawTextFilter(splitText(text4), 950);
   
   // Добавление текста на видео с помощью ffmpeg
   ffmpeg(inputVideoPath)
@@ -89,4 +89,5 @@ function addTextToVideo() {
 }
 
 // Экспортируем функцию
-module.exports = addTextToVideo;
+module.exports = { addTextToVideo }
+addTextToVideo()
