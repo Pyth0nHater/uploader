@@ -65,7 +65,7 @@ async function loginGetCookies(id) {
     await cursor.move(login_btn)
     await cursor.click(login_btn)
     await takeScreenshot(page, '4.png', bot, chatId);
-    await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sleep(15000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
     const cookies = await page.cookies();
     profile.cookie = cookies;

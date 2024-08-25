@@ -22,8 +22,6 @@ async function GetLinksTikTok(id) {
     const chatId = profile.chatId
     const link = profile.tiktok
 
-
-
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
