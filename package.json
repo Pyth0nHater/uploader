@@ -24,9 +24,11 @@
     "node-telegram-bot-api": "^0.66.0",
     "nodemon": "^3.1.4",
     "pm2": "^5.4.0",
-    "puppeteer": "^22.10.0",
+    "puppeteer": "^22.15.0",
+    "puppeteer-core": "^23.2.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "semver": "^7.6.3",
     "user-agents": "^1.1.286"
   }
 }

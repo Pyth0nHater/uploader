@@ -1,3 +1,5 @@
-2024/07/31-00:59:22.315 3b48 Reusing MANIFEST C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Site Characteristics Database/MANIFEST-000001
-2024/07/31-00:59:22.316 3b48 Recovering log #3
-2024/07/31-00:59:22.317 3b48 Reusing old log C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Site Characteristics Database/000003.log 
+2024/08/28-09:43:31.628 3fdc Log #3: 6 ops saved to Table #4 OK
+2024/08/28-09:43:31.630 3fdc Archiving C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Site Characteristics Database/000003.log: OK
+2024/08/28-09:43:31.630 3fdc Table #4: 6 entries OK
+2024/08/28-09:43:31.631 3fdc Archiving C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Site Characteristics Database/MANIFEST-000001: OK
+2024/08/28-09:43:31.645 3fdc **** Repaired leveldb C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Site Characteristics Database; recovered 1 files; 370 bytes. Some data may have been lost. ****

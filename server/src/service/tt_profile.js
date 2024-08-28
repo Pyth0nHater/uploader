@@ -15,17 +15,17 @@ async function tiktokUpload() {
     const bot = new TelegramBot(botToken)
     const chatId = "819850346"
 
-    const proxyServer = "http://46.30.189.50:11807"; // Replace with your proxy server and port
-    const proxyUsername = "modeler_tCt7nu"; // Replace with your proxy username
-    const proxyPassword = "VUE7m5So2BP3"; // Replace with your proxy password
+    const proxyServer = "http://192.71.227.72:13059"; // Replace with your proxy server and port
+    const proxyUsername = "modeler_2qfAQT"; // Replace with your proxy username
+    const proxyPassword = "AkagoXsXBsx1"; // Replace with your proxy password
 
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
-            `--proxy-server=${proxyServer}`,
+
             `--window-size=1920,1080`
         ],
-        userDataDir: "../../data/profiles/tiktok_kz_otleg",
+        userDataDir: "../../data/profiles/tiktok_phone",
         headless: false,
     });
     const page = await browser.newPage();
@@ -38,7 +38,7 @@ async function tiktokUpload() {
     // const cookies = JSON.parse(await fs.readFile('../../data/cookies/tiktok_cookie.json'));
     // await page.setCookie(...cookies);
 
-    await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded' });
+    await page.goto("https://www.tiktok.com/", { waitUntil: 'domcontentloaded' });
    
 }
 

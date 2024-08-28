@@ -1,3 +1,2 @@
-2024/08/09-22:20:30.484 494 Reusing MANIFEST C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Local Storage\leveldb/MANIFEST-000001
-2024/08/09-22:20:30.599 494 Recovering log #7
-2024/08/09-22:20:30.741 494 Reusing old log C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Local Storage\leveldb/000007.log 
+2024/08/28-09:43:31.949 3e8c Creating DB C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Local Storage\leveldb since it was missing.
+2024/08/28-09:43:31.986 3e8c Reusing MANIFEST C:\Users\korol\uploader\server\data\profiles\tiktok_kz_otleg\Default\Local Storage\leveldb/MANIFEST-000001

@@ -16,17 +16,16 @@ async function tiktokUpload() {
     const chatId = "819850346"
     
     const caption = "link in bio!";
-    const proxyServer = "http://213.139.220.86:8000"; // Replace with your proxy server and port
-    const proxyUsername = "cD3EH2"; // Replace with your proxy username
-    const proxyPassword = "SfJvpm"; // Replace with your proxy password
+    const proxyServer = "http://192.71.227.72:13059"; // Replace with your proxy server and port
+    const proxyUsername = "modeler_2qfAQT"; // Replace with your proxy username
+    const proxyPassword = "AkagoXsXBsx1"; // Replace with your proxy password
 
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
-            `--proxy-server=${proxyServer}`,
             `--window-size=1920,1080`
         ],
-        userDataDir: "../../data/profiles/tiktok_kz",
+        userDataDir: "../../data/profiles/tiktok_phone",
         headless: false,
     });
     const page = await browser.newPage();
