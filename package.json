@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.1.2",
     "@tobyg74/tiktok-api-dl": "^1.1.9",
     "axios": "^1.7.2",
     "cors": "^2.8.5",

@@ -35,10 +35,10 @@ async function main(id) {
     //await GetLinksTikTok(id)
 
 
-    for (const url of links) {
+    for (let i = 0; i < 49; i++) {
         try {
             await addTextToVideo()
-            const videoPath = `../../videos/${id}_unique.mp4`;
+            // const videoPath = `../../videos/${id}_unique.mp4`;
             await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
             await sleep(10000)
             await postReels(id);

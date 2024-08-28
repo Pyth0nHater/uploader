@@ -2,7 +2,33 @@ const fs = require('fs');
 const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const ffprobePath = require('@ffprobe-installer/ffprobe').path;
+
 ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfprobePath(ffprobePath);
+
+// Функция для выбора случайного видео из папки
+function getRandomVideoFromFolder(folderPath) {
+  // Получаем список всех файлов в папке
+  const files = fs.readdirSync(folderPath);
+
+  // Фильтруем файлы, оставляя только видеофайлы (например, с расширениями .mp4, .mkv)
+  const videoFiles = files.filter(file => {
+    const ext = path.extname(file).toLowerCase();
+    return ['.mp4', '.mkv', '.avi', '.mov', '.MP4'].includes(ext);
+  });
+
+  if (videoFiles.length === 0) {
+    throw new Error('В папке нет видеофайлов.');
+  }
+
+  // Выбираем случайный файл из списка видеофайлов
+  const randomIndex = Math.floor(Math.random() * videoFiles.length);
+  const randomVideo = videoFiles[randomIndex];
+
+  // Возвращаем полный путь к выбранному видеофайлу
+  return path.join(folderPath, randomVideo);
+}
 
 // Укажите путь к JSON файлу с цитатами
 const quotesFilePath = path.join(__dirname, 'quotes.json');
@@ -41,7 +67,7 @@ function splitText(text, maxLength = 47) {
 }
 
 // Основная функция для добавления текста на видео
-function addTextToVideo() {
+function addTextToVideo(randomVideoPath) {
   const quotes = readQuotesFromFile();
   const selectedQuotes = quotes.splice(0, 2); // выберем две первые цитаты
   writeQuotesToFile(quotes); // обновим файл, удалив использованные цитаты
@@ -51,8 +77,6 @@ function addTextToVideo() {
   const text3 = splitText(selectedQuotes[1]);
   const text4 = "Ты изучишь трейдинг за 30 дней если подпишешься на телеграмм канал по ссылке в профиле";
   
-  // Укажите путь к исходному видео
-  const inputVideoPath = path.join(__dirname, 'input.mp4');
   // Укажите путь для сохранения выходного видео
   const outputVideoPath = '../../videos/66cb6e8c3b53d62a5e875fe8_unique.mp4';
   
@@ -69,8 +93,21 @@ function addTextToVideo() {
   const text3Filter = createDrawTextFilter(text3, 600);
   const text4Filter = createDrawTextFilter(splitText(text4), 950);
   
+  ffmpeg.ffprobe(randomVideoPath, function(err, metadata) {
+    if (err) {
+      console.error('Ошибка при получении информации о видео:', err.message);
+      return;
+    }
+  
+    // Разрешение видео
+    const width = metadata.streams[0].width;
+    const height = metadata.streams[0].height;
+  
+    console.log(`Разрешение видео: ${width}x${height}`);
+  });
+
   // Добавление текста на видео с помощью ffmpeg
-  ffmpeg(inputVideoPath)
+  ffmpeg(randomVideoPath)
     .outputOptions(
       '-vf',
       `${text1Filter},${text2Filter},${text3Filter},${text4Filter}`
@@ -85,9 +122,14 @@ function addTextToVideo() {
       console.log('Видео успешно обработано и сохранено в ' + outputVideoPath);
     })
     .save(outputVideoPath);
-  
 }
 
-// Экспортируем функцию
-module.exports = { addTextToVideo }
-addTextToVideo()
+// Пример использования
+const folderPath = '../creos'; // Замените 'videos' на путь к вашей папке с видео
+try {
+  const randomVideoPath = getRandomVideoFromFolder(folderPath);
+  console.log('Выбранное случайное видео:', randomVideoPath);
+  addTextToVideo(randomVideoPath);
+} catch (err) {
+  console.error(err.message);
+}
