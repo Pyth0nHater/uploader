@@ -1,3 +1,13 @@
-2024/08/28-10:17:53.393 2b5c Reusing MANIFEST C:\Users\korol\uploader\server\data\profiles\tiktok_phone\Default\Local Storage\leveldb/MANIFEST-000001
-2024/08/28-10:17:53.518 2b5c Recovering log #4
-2024/08/28-10:17:53.532 2b5c Reusing old log C:\Users\korol\uploader\server\data\profiles\tiktok_phone\Default\Local Storage\leveldb/000004.log 
+2024/08/30-13:45:35.453 f28 Reusing MANIFEST C:\Users\korol\uploader\server\data\profiles\tiktok_phone\Default\Local Storage\leveldb/MANIFEST-000001
+2024/08/30-13:45:35.459 f28 Recovering log #12
+2024/08/30-13:45:35.460 f28 Level-0 table #15: started
+2024/08/30-13:45:35.471 f28 Level-0 table #15: 31563 bytes OK
+2024/08/30-13:45:35.476 f28 Delete type=0 #12
+2024/08/30-13:45:35.476 2eb4 Compacting 4@0 + 0@1 files
+2024/08/30-13:45:35.512 2eb4 Generated table #17@0: 86 keys, 121794 bytes
+2024/08/30-13:45:35.512 2eb4 Compacted 4@0 + 0@1 files => 121794 bytes
+2024/08/30-13:45:35.513 2eb4 compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/08/30-13:45:35.514 2eb4 Delete type=2 #7
+2024/08/30-13:45:35.514 2eb4 Delete type=2 #11
+2024/08/30-13:45:35.514 2eb4 Delete type=2 #13
+2024/08/30-13:45:35.515 2eb4 Delete type=2 #15

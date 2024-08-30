@@ -23,6 +23,7 @@ async function tiktokUpload() {
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
+            `--proxy-server=${proxyServer}`,
             `--window-size=1920,1080`
         ],
         userDataDir: "../../data/profiles/tiktok_phone",
@@ -43,7 +44,7 @@ async function tiktokUpload() {
 
     for (let i=0; i<6; i++){
         
-        await page.goto("https://www.tiktok.com/tiktokstudio/upload?from=upload", { waitUntil: 'domcontentloaded' });
+        await page.goto("https://www.tiktok.com/tiktokstudio/upload", { waitUntil: 'domcontentloaded' });
         await sleep(20000 + Math.floor(Math.random() * 3000));
         await takeScreenshot(page, '1.png', bot, chatId);
 
