@@ -48,18 +48,18 @@ app.use('/', reelsRoute);
 app.use('/tiktok', tiktokRoutes);
 
 // Новый эндпоинт для запуска процесса обработки и загрузки видео
-app.post('/process/:id', async (req, res) => {
-  const { id } = req.params;
+// app.post('/process/:id', async (req, res) => {
+//   const { id } = req.params;
 
-  try {
-    // Запускаем основную функцию для обработки TikTok видео
-    main(id);
-    res.status(200).send({ message: `Processing started for profile with ID: ${id}` });
-  } catch (error) {
-    console.error('Error processing profile:', error);
-    res.status(500).send({ message: 'An error occurred while processing the profile', error: error.message });
-  }
-});
+//   try {
+//     // Запускаем основную функцию для обработки TikTok видео
+//     main(id);
+//     res.status(200).send({ message: `Processing started for profile with ID: ${id}` });
+//   } catch (error) {
+//     console.error('Error processing profile:', error);
+//     res.status(500).send({ message: 'An error occurred while processing the profile', error: error.message });
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
