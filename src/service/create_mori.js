@@ -139,7 +139,7 @@ const processVideos = async () => {
     await removeAudioFromVideo(outputPath, outputPathNoAudio);
 
     // Добавляем новое аудио к итоговому видео без звука
-    const finalVideoWithAudio = 'output.mp4';
+    const finalVideoWithAudio = '../../videos/6716388828070da0c2c38517.mp4';
     await addAudioToVideo(outputPathNoAudio, audioPath, finalVideoWithAudio);
 
     console.log('Процесс завершен, итоговое видео с аудио: ' + finalVideoWithAudio);

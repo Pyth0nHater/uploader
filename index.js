@@ -6,7 +6,7 @@ const cors = require('cors');
 const authRoutes = require('./src/routes/cookie.routes');
 const reelsRoute = require('./src/routes/reels.routes');
 const tiktokRoutes = require('./src/routes/tiktok.routes');
-const { main } = require('./src/service/main'); // Импортируем вашу функцию main
+// const { main } = require('./src/service/main'); // Импортируем вашу функцию main
 
 const app = express();
 const port = 5000;
