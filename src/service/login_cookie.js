@@ -76,7 +76,7 @@ async function loginGetCookies(id) {
     const newpost_btn = 'svg[aria-label="New post"]'  
     let isExist = (await page.$(newpost_btn)) || "";
     if (!isExist){
-        await page.click(post_btn)
+        await page.click(newpost_btn)
         await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
         await takeScreenshot(page, '4.png', bot, chatId);
         await browser.close();
