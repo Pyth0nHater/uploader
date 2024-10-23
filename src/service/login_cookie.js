@@ -21,7 +21,7 @@ async function loginGetCookies(id) {
                  args: [
           '--no-sandbox',
                         ],
-        userDataDir: profile.profileFolder,
+        userDataDir: profile.login,
         headless: true,
     });
     const page = await browser.newPage();
@@ -70,17 +70,17 @@ async function loginGetCookies(id) {
     await sleep(30000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
 
-    await takeScreenshot(page, '5.png', bot, chatId);
     const newpost_btn = 'svg[aria-label="New post"]'  
     let isExist = (await page.$(newpost_btn)) || "";
     if (isExist){
         await page.click(newpost_btn)
         await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-        await takeScreenshot(page, '4.png', bot, chatId);
+        await takeScreenshot(page, '5.png', bot, chatId);
         await browser.close();
         return true
     }
 
+    await takeScreenshot(page, '5.png', bot, chatId);
     await browser.close();
     return false
 
