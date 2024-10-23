@@ -37,7 +37,7 @@ async function postReels(id) {
         ],
         headless: true,
         executablePath: executablePath(),
-        userDataDir: `../../profiles/${id}`
+        userDataDir: `../../profiles/${profile.login}`
     });
     const page = await browser.newPage();
     await page.authenticate({

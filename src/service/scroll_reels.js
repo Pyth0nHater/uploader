@@ -19,11 +19,11 @@ const sleep = (milliseconds) => {
 };
 
 async function scrollReels(id) {
-    // const profile = await Profile.findById(id)
+    const profile = await Profile.findById(id)
     const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
-    // const chatId = profile.chatId
-    const chatId = "819850346"
+    const chatId = profile.chatId
+    // const chatId = "819850346"
 
     
     const username = process.env.login;
@@ -37,7 +37,7 @@ async function scrollReels(id) {
         ],
         headless: true,
         executablePath: executablePath(),
-        userDataDir: `../../profiles/${id}`
+        userDataDir: `../../profiles/${profile.login}`
     });
     const page = await browser.newPage();
     await page.authenticate({

@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 
 const { processVideos } = require('./create_mori');
 const { postReels } = require('./upload');
-const { scrollReels } = require('./reels');
+const { scrollReels } = require('./scroll_reels');
 
 const Profile = require('../models/profile');
 const mongoose = require('mongoose');

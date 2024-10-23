@@ -1,5 +1,5 @@
 // controllers/authController.js
-const loginGetCookies = require('../service/login_cookie');
+const loginGetCookies = require('../service/login.service');
 const profileService = require('../service/profile.service');
 
 exports.loginAndFetchCookies = async (req, res) => {

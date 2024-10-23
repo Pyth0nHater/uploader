@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
   chatId: { type: Number, required: true },
   instagram: { type: String, required: true },
-  tiktok: { type: String, required: true },
+  tiktok: { type: String },
   links: { type: [String], default: [] },
   newLinks: { type: [String], default: [] },
   removeLinks: { type: [String], default: [] },
