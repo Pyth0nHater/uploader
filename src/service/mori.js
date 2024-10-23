@@ -38,7 +38,7 @@ async function main(id) {
     for (let i = 0; i < 100; i++) {
         try {
             await processVideos();
-            const videoPath = `../../videos/${id}_unique.mp4`;
+            const videoPath = `../../videos/${id}.mp4`;
             //await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
             await sleep(10000)
             await postReels(id);
@@ -48,8 +48,8 @@ async function main(id) {
             const delay_2 = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay_2);
         } catch (error) {
-            console.error(`Error posting reels for ${url}:`, error);
-            await bot.sendMessage(chatId, `Error posting reels for ${url}: ${error.message}`);
+            console.error(`Error`, error);
+            await bot.sendMessage(chatId, `Error posting reels`);
         }
     }
 }
