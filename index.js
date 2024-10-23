@@ -43,7 +43,7 @@ bot.on('message', (msg) => {
 
 // Маршруты для профилей
 app.use('/profiles', profileRoutes);
-app.use('/cookies', authRoutes);
+app.use('/', authRoutes);
 app.use('/', reelsRoute);
 app.use('/tiktok', tiktokRoutes);
 

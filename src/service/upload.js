@@ -20,7 +20,8 @@ const sleep = (milliseconds) => {
 };
 
 async function postReels(id) {
-    const profile = await Profile.findById(id)
+    // const profile = await Profile.findById(id)
+    const profile = id
     const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
     const chatId = profile.chatId

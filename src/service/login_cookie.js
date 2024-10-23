@@ -11,7 +11,8 @@ const sleep = (milliseconds) => {
 };
 
 async function loginGetCookies(id) {
-    const profile = await Profile.findById(id)
+    const profile = id
+    // const profile = await Profile.findById(id)
     const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
     const chatId = profile.chatId
@@ -65,7 +66,8 @@ async function loginGetCookies(id) {
     await cursor.move(login_btn)
     await cursor.click(login_btn)
     await takeScreenshot(page, '4.png', bot, chatId);
-    await sleep(15000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sleep(30000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sendMessage('Agree login from phone', bot, chatId);
 
     const cookies = await page.cookies();
     profile.cookie = cookies;
@@ -75,7 +77,7 @@ async function loginGetCookies(id) {
 
     const newpost_btn = 'svg[aria-label="New post"]'  
     let isExist = (await page.$(newpost_btn)) || "";
-    if (!isExist){
+    if (isExist){
         await page.click(newpost_btn)
         await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
         await takeScreenshot(page, '4.png', bot, chatId);
@@ -94,6 +96,10 @@ async function takeScreenshot(page, filename, bot, chatId) {
     const screenshot = await fs.readFile(screenshotPath);
     await bot.sendPhoto(chatId, screenshot);
     await fs.unlink(screenshotPath);
+}
+
+async function sendMessage(message, bot, chatId) {
+    await bot.sendMessage(chatId, message);
 }
 
 module.exports = loginGetCookies;
