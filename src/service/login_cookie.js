@@ -4,8 +4,6 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { createCursor, installMouseHelper, randomMove } = require("ghost-cursor")
 const TelegramBot = require('node-telegram-bot-api');
 puppeteer.use(StealthPlugin());
-const Profile = require('../models/profile');
-
 const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };

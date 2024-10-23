@@ -119,5 +119,5 @@ function processVideo(id) {
 }
 
 // Экспорт функции для использования в других модулях
-processVideo('test')
+// processVideo('test')
 module.exports = { processVideo };

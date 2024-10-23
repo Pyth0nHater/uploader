@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const TelegramBot = require('node-telegram-bot-api');
 const profileRoutes = require('./src/routes/profile.routes');
 const cors = require('cors');
-const authRoutes = require('./src/routes/cookie.routes');
-const reelsRoute = require('./src/routes/reels.routes');
-const tiktokRoutes = require('./src/routes/tiktok.routes');
+const authRoutes = require('./src/routes/login.routes');
 // const { main } = require('./src/service/main'); // Импортируем вашу функцию main
 
 const app = express();
@@ -44,7 +42,6 @@ bot.on('message', (msg) => {
 // Маршруты для профилей
 app.use('/profiles', profileRoutes);
 app.use('/', authRoutes);
-app.use('/', reelsRoute);
 app.use('/tiktok', tiktokRoutes);
 
 // Новый эндпоинт для запуска процесса обработки и загрузки видео
