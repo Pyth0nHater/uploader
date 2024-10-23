@@ -21,7 +21,7 @@ async function loginGetCookies(id) {
                  args: [
           '--no-sandbox',
                         ],
-        userDataDir: profile.login,
+        userDataDir: `profiles/${profile.login}`,
         headless: true,
     });
     const page = await browser.newPage();

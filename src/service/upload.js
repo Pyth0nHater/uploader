@@ -19,9 +19,8 @@ const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function postReels(data) {
-    // const profile = await Profile.findById(id)
-    const profile = data
+async function postReels(id) {
+    const profile = await Profile.findById(id)
     const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
     const bot = new TelegramBot(botToken);
     const chatId = profile.chatId
@@ -38,7 +37,7 @@ async function postReels(data) {
         ],
         headless: true,
         executablePath: executablePath(),
-        userDataDir: `../../profiles/${profile.login}`
+        userDataDir: `../../profiles/${id}`
     });
     const page = await browser.newPage();
     await page.authenticate({
