@@ -66,15 +66,11 @@ async function loginGetCookies(id) {
     await cursor.move(login_btn)
     await cursor.click(login_btn)
     await takeScreenshot(page, '4.png', bot, chatId);
-    await sleep(30000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await sendMessage('Agree login from phone', bot, chatId);
+    await sleep(30000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
-    const cookies = await page.cookies();
-    profile.cookie = cookies;
-    await profile.save();
+
     await takeScreenshot(page, '5.png', bot, chatId);
-
-
     const newpost_btn = 'svg[aria-label="New post"]'  
     let isExist = (await page.$(newpost_btn)) || "";
     if (isExist){
