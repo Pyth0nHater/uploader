@@ -70,11 +70,22 @@ async function loginGetCookies(id) {
     const cookies = await page.cookies();
     profile.cookie = cookies;
     await profile.save();
-    
     await takeScreenshot(page, '5.png', bot, chatId);
 
-    console.log("successfully auth");
+
+    const newpost_btn = 'svg[aria-label="New post"]'  
+    let isExist = (await page.$(newpost_btn)) || "";
+    if (!isExist){
+        await page.click(post_btn)
+        await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+        await takeScreenshot(page, '4.png', bot, chatId);
+        await browser.close();
+        return true
+    }
+
     await browser.close();
+    return false
+
 }
 
 async function takeScreenshot(page, filename, bot, chatId) {
