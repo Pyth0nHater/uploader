@@ -1,27 +1,82 @@
-const fs = require('fs');
-const path = require('path');
-const ffmpeg = require('fluent-ffmpeg');
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-const ffprobePath = require('@ffprobe-installer/ffprobe').path;
+const { S3Client, ListObjectsV2Command, GetObjectCommand } = require("@aws-sdk/client-s3");
+const fs = require("fs");
+const path = require("path");
+const ffmpeg = require("fluent-ffmpeg");
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffprobePath = require("@ffprobe-installer/ffprobe").path;
+const dotenv = require('dotenv');
+
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);
 
-const targetResolution = '1080x1920';  // Целевое разрешение
+const targetResolution = '1080x1920'
 
-// Получаем случайный файл из директории
-const getRandomFile = (dir) => {
-  const files = fs.readdirSync(dir).filter(file => fs.statSync(path.join(dir, file)).isFile());
-  return path.join(dir, files[Math.floor(Math.random() * files.length)]);
+const clearTempFolder = () => {
+  fs.readdir('./temp', (err, files) => {
+    if (err) throw err;
+
+    for (const file of files) {
+      fs.unlink(path.join('./temp', file), err => {
+        if (err) throw err;
+      });
+    }
+    console.log('Папка temp очищена.');
+  });
 };
 
-// Обрезаем наложенное видео до 10 секунд и приводим к целевому разрешению
+const s3 = new S3Client({
+    region: "ru-1",
+    endpoint: "https://s3.timeweb.cloud",
+    credentials: {
+        accessKeyId: process.env.accessKeyId,
+        secretAccessKey: process.env.secretAccessKey,
+    },
+});
+
+// Генерация уникального имени файла на основе текущей даты и времени
+const generateUniqueFileName = (prefix, extension) => {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    return `./temp/${prefix}_${timestamp}.${extension}`;
+};
+
+async function getRandomFileFromS3(bucketName, folder) {
+    const listCommand = new ListObjectsV2Command({
+        Bucket: bucketName,
+        Prefix: folder,
+    });
+
+    const { Contents } = await s3.send(listCommand);
+    const files = Contents.filter(item => item.Key.endsWith(".mp4") || item.Key.endsWith(".mp3"));
+
+    if (!files.length) throw new Error("No files found in folder");
+
+    const randomFile = files[Math.floor(Math.random() * files.length)];
+    const filePath = generateUniqueFileName(path.basename(randomFile.Key, path.extname(randomFile.Key)), path.extname(randomFile.Key).slice(1));
+
+    const getCommand = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: randomFile.Key,
+    });
+
+    const { Body } = await s3.send(getCommand);
+    const writeStream = fs.createWriteStream(filePath);
+
+    await new Promise((resolve, reject) => {
+        Body.pipe(writeStream);
+        writeStream.on("finish", resolve);
+        writeStream.on("error", reject);
+    });
+
+    return filePath;
+}
+
 const trimOverlayVideo = (overlayPath, outputTrimmed) => {
   return new Promise((resolve, reject) => {
     ffmpeg(overlayPath)
-      .setStartTime(0)  // Начало с 0 секунды
-      .duration(10)     // Длительность обрезки 10 секунд
-      .videoFilter(`scale=${targetResolution}`) // Устанавливаем целевое разрешение
+      .setStartTime(0)
+      .duration(10)
+      .videoFilter(`scale=${targetResolution}`)
       .output(outputTrimmed)
       .on('end', () => {
         console.log('Наложенное видео обрезано до 10 секунд и приведено к разрешению ' + targetResolution);
@@ -32,7 +87,6 @@ const trimOverlayVideo = (overlayPath, outputTrimmed) => {
   });
 };
 
-// Склеиваем обрезанное и полное наложенное видео с приведением к одному разрешению
 const concatVideos = (trimmedVideo, fullVideo, output) => {
   return new Promise((resolve, reject) => {
     ffmpeg()
@@ -54,7 +108,6 @@ const concatVideos = (trimmedVideo, fullVideo, output) => {
   });
 };
 
-// Накладываем видео на основной файл в заданный интервал, приводя к одному разрешению
 const overlayVideoOnSegment = (background, overlay, start, duration, output) => {
   return new Promise((resolve, reject) => {
     ffmpeg(background)
@@ -78,11 +131,10 @@ const overlayVideoOnSegment = (background, overlay, start, duration, output) => 
   });
 };
 
-// Убираем аудио из видео
 const removeAudioFromVideo = (inputVideo, outputVideo) => {
   return new Promise((resolve, reject) => {
     ffmpeg(inputVideo)
-      .outputOptions('-an')  // Убираем аудио
+      .outputOptions('-an')
       .output(outputVideo)
       .on('end', () => {
         console.log('Аудио успешно убрано из видео.');
@@ -93,15 +145,14 @@ const removeAudioFromVideo = (inputVideo, outputVideo) => {
   });
 };
 
-// Добавляем аудио к финальному видео
 const addAudioToVideo = (videoPath, audioPath, output) => {
   return new Promise((resolve, reject) => {
     ffmpeg(videoPath)
-      .input(audioPath)  // Входной аудиофайл
-      .outputOptions('-c:v', 'copy')  // Сохраняем видео как есть
-      .outputOptions('-c:a', 'aac')  // Кодируем аудио в AAC
-      .outputOptions('-strict', 'experimental')  // Флаг для использования experimental AAC
-      .outputOptions('-shortest')  // Делаем выходное видео длиной в короткую часть (видео или аудио)
+      .input(audioPath)
+      .outputOptions('-c:v', 'copy')
+      .outputOptions('-c:a', 'aac')
+      .outputOptions('-strict', 'experimental')
+      .outputOptions('-shortest')
       .output(output)
       .on('end', () => {
         console.log('Аудио успешно наложено на видео.');
@@ -112,40 +163,35 @@ const addAudioToVideo = (videoPath, audioPath, output) => {
   });
 };
 
-// Асинхронная функция для выполнения процесса
-const processVideos = async () => {
+const processVideos = async (id) => {
   try {
-    // Выбираем случайные файлы для видео и аудио
-    const inputPath = getRandomFile('../creos/mori');  // Случайное основное видео
-    const trimmedOverlay1 = getRandomFile('../creos/money');  // Случайное наложенное видео
-    const audioPath = getRandomFile('../creos/audio');  // Случайное аудио
+    const inputPath = await getRandomFileFromS3("dcb8c081-633ff4d7-f95f-48c8-8af0-5bc715990d2d", "mori/");
+    const trimmedOverlay1 = await getRandomFileFromS3("dcb8c081-633ff4d7-f95f-48c8-8af0-5bc715990d2d", "money/");
+    const audioPath = await getRandomFileFromS3("dcb8c081-633ff4d7-f95f-48c8-8af0-5bc715990d2d", "audio/");
 
     console.log(`Выбрано видео: ${inputPath}, наложенное видео: ${trimmedOverlay1}, аудио: ${audioPath}`);
 
-    // Обрезаем наложенное видео до 10 секунд
-    const trimmedOverlay = './temp/trimmed_overlay.mp4';
+    const trimmedOverlay = generateUniqueFileName('trimmed_overlay', 'mp4');
     await trimOverlayVideo(trimmedOverlay1, trimmedOverlay);
 
-    // Склеиваем обрезанное и полное наложенное видео
-    const concatenatedOverlay = './temp/concatenated_overlay.mp4';
+    const concatenatedOverlay = generateUniqueFileName('concatenated_overlay', 'mp4');
     await concatVideos(trimmedOverlay, trimmedOverlay1, concatenatedOverlay);
 
-    // Накладываем склеенное наложенное видео на основное
-    const outputPath = './temp/final_output.mp4';
+    const outputPath = generateUniqueFileName('final_output', 'mp4');
     await overlayVideoOnSegment(inputPath, concatenatedOverlay, 10, 20, outputPath);
 
-    // Убираем аудио из итогового видео
-    const outputPathNoAudio = './temp/final_output_no_audio.mp4';
+    const outputPathNoAudio = generateUniqueFileName('final_output_no_audio', 'mp4');
     await removeAudioFromVideo(outputPath, outputPathNoAudio);
 
-    // Добавляем новое аудио к итоговому видео без звука
-    const finalVideoWithAudio = '../../videos/6716388828070da0c2c38517.mp4';
+    const finalVideoWithAudio = `../../videos/${id}.mp4`
     await addAudioToVideo(outputPathNoAudio, audioPath, finalVideoWithAudio);
 
     console.log('Процесс завершен, итоговое видео с аудио: ' + finalVideoWithAudio);
+    clearTempFolder();
   } catch (error) {
     console.error('Ошибка при обработке видео:', error);
   }
 };
 
-module.exports = { processVideos }
+processVideos("6698fb32a9b8173255b766d2");
+module.exports = { processVideos };
