@@ -45,6 +45,8 @@ async function loginGetCookies(id) {
     await takeScreenshot(page, '1.png', bot, chatId);
 
 
+    await sendMessage('Agree login from phone', bot, chatId);
+
     const login_input = '#loginForm > div > div:nth-child(1) > div > label > input'
 
     await page.waitForSelector(login_input)
@@ -64,8 +66,7 @@ async function loginGetCookies(id) {
     await cursor.move(login_btn)
     await cursor.click(login_btn)
     await takeScreenshot(page, '4.png', bot, chatId);
-    await sendMessage('Agree login from phone', bot, chatId);
-    await sleep(30000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await sleep(15000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
 
     const newpost_btn = 'svg[aria-label="New post"]'  

@@ -42,7 +42,7 @@ bot.on('message', (msg) => {
 // Маршруты для профилей
 app.use('/profiles', profileRoutes);
 app.use('/', authRoutes);
-app.use('/tiktok', tiktokRoutes);
+// app.use('/tiktok', tiktokRoutes);
 
 // Новый эндпоинт для запуска процесса обработки и загрузки видео
 // app.post('/process/:id', async (req, res) => {
