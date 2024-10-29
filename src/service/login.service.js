@@ -40,12 +40,13 @@ async function loginGetCookies(id) {
     // await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     // await takeScreenshot(page, '2.png', bot, chatId);
 
+    
+    await sendMessage('Agree login from phone', bot, chatId);
+    
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded' });
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
     await takeScreenshot(page, '1.png', bot, chatId);
 
-
-    await sendMessage('Agree login from phone', bot, chatId);
 
     const login_input = '#loginForm > div > div:nth-child(1) > div > label > input'
 
