@@ -37,10 +37,10 @@ async function main(id) {
 
     for (let i = 0; i < 100; i++) {
         try {
-            await processVideos();
+            await processVideos(id);
             const videoPath = `../../videos/${id}.mp4`;
-            //await bot.sendVideo(chatId, videoPath, { caption: 'Downloaded video from TikTok' });
-            await sleep(10000)
+            await bot.sendVideo(chatId, videoPath, { caption: 'New video' });
+            // await sleep(10000)
             await postReels(id);
             const delay = (2 * 60 * 60 * 1000) + Math.floor(Math.random() * (30 * 60 * 1000));
             await sleep(delay);
@@ -54,5 +54,5 @@ async function main(id) {
     }
 }
 
-main("6719078f662bb5bfa05486e9");
+main("67193570e5404417a7542d0e");
 //module.exports = { main }

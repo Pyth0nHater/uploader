@@ -54,6 +54,9 @@ async function scrollReels(id) {
 
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(3000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+
+    await cursor.moveTo({x: 400, y:450})
+    await cursor.click()
     await takeScreenshot(page, '1.png', bot, chatId);
 
 

@@ -55,7 +55,7 @@ async function postReels(id) {
     await page.goto("https://www.instagram.com/", { waitUntil: 'domcontentloaded', headless: "new" });
     await sleep(5000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
 
-    // await cursor.moveTo({x: 500, y:640})
+    // await cursor.moveTo({x: 400, y:450})
     // await cursor.click()
     await takeScreenshot(page, '1.png', bot, chatId);
 
@@ -86,12 +86,12 @@ async function postReels(id) {
     await takeScreenshot(page, '3.png', bot, chatId);
 
     const post_btn = 'div[class="x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh x1uhb9sk x1plvlek xryxfnj x1iyjqo2 x2lwn1j xeuugli xdt5ytf xqjyukv x1cy8zhl x1oa3qoh x1nhvcw1"]'
-    let isExistPostBtn = (await page.$(post_btn)) || "";
-    if (isExistPostBtn){
-        await page.click(post_btn)
-        await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
-        await takeScreenshot(page, '4.png', bot, chatId);
-    }
+    // let isExistPostBtn = (await page.$(post_btn)) || "";
+    // if (isExistPostBtn){
+    await page.click(post_btn)
+    await sleep(10000+Math.floor(Math.random() * (3000 - 500 + 1)) + 500)
+    await takeScreenshot(page, '4.png', bot, chatId);
+    // }
 
     const elementHandle = await page.$('input[type="file"]');
     await elementHandle.uploadFile(`../../videos/${id}.mp4`);
