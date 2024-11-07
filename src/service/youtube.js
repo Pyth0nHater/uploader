@@ -1,40 +1,55 @@
+// const allow_cookie = 'button[class="_a9-- _ap36 _a9_0"]'
+// await cursor.move(allow_cookie)
+// await cursor.click(allow_cookie)
+
 const puppeteer = require('puppeteer-extra');
 const fs = require('fs').promises;
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { executablePath } = require('puppeteer');
+const TelegramBot = require('node-telegram-bot-api');
 const { createCursor, installMouseHelper } = require("ghost-cursor");
 puppeteer.use(StealthPlugin());
+const dotenv = require('dotenv');
+const Profile = require('../models/profile');
 
+
+
+dotenv.config();
 const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function postReels() {
-    //Генерируем уникальный идентификатор для каталога userDataDir
-    const username = 'modeler_bib0v5';
-    const password = '6nGEpcc9FrxN';
+async function postReels(id) {
+    // const profile = await Profile.findById(id)
+    const botToken = "6807558708:AAEapTJk9thUr6NIIUxn8WRxpx1aoI7pnhs";
+    const bot = new TelegramBot(botToken);
+    const chatId = profile.chatId
+    const caption = profile.description
+
+    const username = process.env.login;
+    const password = process.env.password;
+    const ip = process.env.ip;
+    console.log(username, password, ip)
 
     const browser = await puppeteer.launch({
         args: [
          '--no-sandbox',
-        //  `--proxy-server=http://46.30.189.50:11313`,
         ],
-        headless: false,
+        headless: true,
         executablePath: executablePath(),
-        userDataDir: './testProfile'
+        userDataDir: `./test`
     });
     const page = await browser.newPage();
-    // await page.authenticate({
-    //     username: username,
-    //     password: password,
-    // });
+    await page.authenticate({
+        username: username,
+        password: password,
+    });
     const cursor = createCursor(page);
     await installMouseHelper(page)
     await cursor.toggleRandomMove(true);
 
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-
-    // const cookies = JSON.parse(await fs.readFile('./cookies_youtube.json'));
+    // const cookies = JSON.parse(await fs.readFile('./autocookie.json'));
     // await page.setCookie(...cookies);
 
     await page.goto("https://studio.youtube.com/channel/UCqnhUcGkFLwiW0yqkFvUlcw/videos/upload?d=ud&filter=%5B%5D&sort=%7B%22columnType%22%3A%22date%22%2C%22sortOrder%22%3A%22DESCENDING%22%7D");
